@@ -253,6 +253,635 @@ section {
   transform: scale(0.95);
 }
 
+/* ============ COOKIE MENU PAGE STYLES ============ */
+
+    /* ---- Menu Welcome ---- */
+    .menu-welcome {
+      text-align: center;
+      padding: 60px 20px 20px;
+    }
+
+    .menu-welcome h2 {
+      font-size: 2rem;
+      color: #674846;
+      margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .menu-welcome h2::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: #c8a97e;
+      margin: 8px auto 0;
+      border-radius: 5px;
+    }
+
+    .menu-welcome p {
+      color: #888;
+      font-size: 0.95rem;
+      margin-bottom: 25px;
+    }
+
+    .menu-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .menu-actions a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 12px 28px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .menu-btn-primary {
+      background: linear-gradient(135deg, #674846, #c8a97e);
+      color: white;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 15px rgba(103, 72, 70, 0.35);
+    }
+
+    .menu-btn-primary:hover {
+      background: linear-gradient(135deg, #c8a97e, #674846);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(103, 72, 70, 0.45);
+    }
+
+    .menu-btn-outline {
+      background: white;
+      color: #674846;
+      border: 2px solid #674846;
+    }
+
+    .menu-btn-outline:hover {
+      background: #674846;
+      color: white;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(103, 72, 70, 0.35);
+    }
+
+    /* ---- Category Title ---- */
+    .category-title {
+      font-size: 1.4rem;
+      color: #674846;
+      font-weight: 700;
+      margin: 45px 0 25px;
+      text-align: center;
+      position: relative;
+    }
+
+    .category-title::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(to right, #674846, #c8a97e);
+      margin: 10px auto 0;
+      border-radius: 5px;
+    }
+
+    .menu-count {
+      display: inline-block;
+      background: linear-gradient(135deg, #674846, #c8a97e);
+      color: white;
+      font-size: 0.72rem;
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      margin-left: 8px;
+      letter-spacing: 0.3px;
+      vertical-align: middle;
+    }
+
+    /* ---- Cookie Grid ---- */
+    .menu-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    .cookie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 30px;
+      margin-top: 10px;
+    }
+
+    /* ---- Cookie Grid Card ---- */
+    .cookie-grid-card {
+      background: white;
+      border-radius: 20px;
+      padding: 25px 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .cookie-grid-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, #674846, #c8a97e);
+      z-index: 1;
+    }
+
+    .cookie-grid-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 45px rgba(103, 72, 70, 0.22);
+    }
+
+    /* ---- Cookie Image with Spin ---- */
+    .cookie-img-wrapper {
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff8dc;
+      border: 3px solid #f0e6d3;
+      transition: all 0.3s ease;
+    }
+
+    .cookie-grid-card:hover .cookie-img-wrapper {
+      border-color: #c8a97e;
+      box-shadow: 0 8px 30px rgba(103, 72, 70, 0.2);
+    }
+
+    .cookie-img-wrapper img {
+      width: 130px;
+      height: 130px;
+      object-fit: contain;
+      transition: transform 0.8s ease;
+      border-radius: 0;
+      border: none;
+    }
+
+    .cookie-grid-card:hover .cookie-img-wrapper img {
+      transform: rotate(360deg) scale(1.1);
+    }
+
+    /* ---- Cookie Card Info ---- */
+    .cookie-grid-card h3 {
+      font-size: 1.05rem;
+      color: #674846;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .cookie-grid-card .cookie-tagline {
+      font-size: 0.8rem;
+      color: #aaa;
+      margin-bottom: 10px;
+      line-height: 1.4;
+      min-height: 36px;
+    }
+
+    .cookie-grid-card .cookie-price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #c8a97e;
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    /* ---- View Ingredients Button ---- */
+    .view-ingredients-btn {
+      background: linear-gradient(135deg, #674846, #c8a97e);
+      color: white;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      width: 100%;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 12px rgba(103, 72, 70, 0.25);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .view-ingredients-btn:hover {
+      background: linear-gradient(135deg, #c8a97e, #674846);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(103, 72, 70, 0.35);
+    }
+
+    .view-ingredients-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* ============ INGREDIENT MODAL ============ */
+    .ingredient-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 9998;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .ingredient-modal-overlay.active {
+      display: flex;
+    }
+
+    .ingredient-modal {
+      background: white;
+      border-radius: 24px;
+      padding: 40px 35px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: modalSlideUp 0.4s ease;
+    }
+
+    @keyframes modalSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .ingredient-modal::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, #674846, #c8a97e);
+      border-radius: 24px 24px 0 0;
+    }
+
+    /* ---- Close Button ---- */
+    .modal-close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: #fff0f0;
+      border: none;
+      color: #e74c3c;
+      font-size: 1.2rem;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .modal-close-btn:hover {
+      background: #fde2e2;
+      transform: scale(1.1) rotate(90deg);
+      color: #c0392b;
+    }
+
+    /* ---- Modal Header ---- */
+    .modal-cookie-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .modal-cookie-img {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      margin: 0 auto 15px;
+      display: block;
+      animation: spinOnce 0.8s ease;
+    }
+
+    @keyframes spinOnce {
+      from { transform: rotate(0deg) scale(0.5); opacity: 0; }
+      to { transform: rotate(360deg) scale(1); opacity: 1; }
+    }
+
+    .modal-cookie-header h2 {
+      font-size: 1.5rem;
+      color: #674846;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .modal-cookie-header .modal-tagline {
+      font-size: 0.88rem;
+      color: #aaa;
+      margin-bottom: 5px;
+    }
+
+    .modal-cookie-header .modal-price {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #c8a97e;
+    }
+
+    /* ---- description ng cookie ---- */
+    .modal-description {
+      font-size: 0.88rem;
+      color: #888;
+      line-height: 1.7;
+      padding: 14px 16px;
+      background: #fffdf8;
+      border-radius: 12px;
+      border-left: 3px solid #c8a97e;
+      margin-bottom: 20px;
+    }
+
+    /* ---- Modal Ingredients ---- */
+    .modal-ingredients-title {
+      font-size: 0.95rem;
+      color: #674846;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .modal-ingredients-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 0;
+      margin: 0 0 18px 0;
+    }
+
+    .modal-ingredients-list li {
+      background: #fff8dc;
+      color: #674846;
+      padding: 6px 15px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border: 1px solid #e8d5a3;
+      transition: all 0.3s ease;
+    }
+
+    .modal-ingredients-list li:hover {
+      background: linear-gradient(135deg, #674846, #c8a97e);
+      color: #fff;
+      border-color: #674846;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(103, 72, 70, 0.2);
+    }
+
+    /* ---- Modal Allergen ---- */
+    .modal-allergen {
+      font-size: 0.78rem;
+      color: #b71c1c;
+      background: #fce4ec;
+      padding: 10px 14px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #f8bbd0;
+      margin-bottom: 20px;
+    }
+
+    /* ---- Modal Action Buttons ---- */
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .modal-shop-btn {
+      flex: 1;
+      background: linear-gradient(135deg, #674846, #c8a97e);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(103, 72, 70, 0.25);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .modal-shop-btn:hover {
+      background: linear-gradient(135deg, #c8a97e, #674846);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(103, 72, 70, 0.35);
+    }
+
+    .modal-close-action {
+      flex: 1;
+      background: white;
+      color: #674846;
+      border: 2px solid #674846;
+      padding: 12px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .modal-close-action:hover {
+      background: #674846;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(103, 72, 70, 0.35);
+    }
+
+    /* ---- Modal Scrollbar ---- */
+    .ingredient-modal::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .ingredient-modal::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .ingredient-modal::-webkit-scrollbar-thumb {
+      background: #c8a97e;
+      border-radius: 10px;
+    }
+
+    /* ---- Footer spacing ---- */
+    .footer-menu-page {
+      padding-bottom: 30px !important;
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 768px) {
+      .cookie-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .cookie-img-wrapper {
+        width: 130px;
+        height: 130px;
+      }
+
+      .cookie-img-wrapper img {
+        width: 105px;
+        height: 105px;
+      }
+
+      .cookie-grid-card h3 {
+        font-size: 0.92rem;
+      }
+
+      .cookie-grid-card .cookie-tagline {
+        font-size: 0.75rem;
+        min-height: 30px;
+      }
+
+      .menu-welcome h2 {
+        font-size: 1.6rem;
+      }
+
+      .ingredient-modal {
+        padding: 30px 22px;
+        max-height: 85vh;
+      }
+
+      .modal-cookie-img {
+        width: 110px;
+        height: 110px;
+      }
+
+      .modal-cookie-header h2 {
+        font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cookie-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      .cookie-grid-card {
+        padding: 18px 14px;
+        border-radius: 16px;
+      }
+
+      .cookie-img-wrapper {
+        width: 100px;
+        height: 100px;
+      }
+
+      .cookie-img-wrapper img {
+        width: 80px;
+        height: 80px;
+      }
+
+      .cookie-grid-card h3 {
+        font-size: 0.82rem;
+      }
+
+      .cookie-grid-card .cookie-tagline {
+        font-size: 0.7rem;
+        min-height: 26px;
+      }
+
+      .cookie-grid-card .cookie-price {
+        font-size: 1rem;
+        margin-bottom: 10px;
+      }
+
+      .view-ingredients-btn {
+        padding: 8px 14px;
+        font-size: 0.78rem;
+      }
+
+      .menu-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .menu-actions a {
+        width: 85%;
+        justify-content: center;
+      }
+
+      .category-title {
+        font-size: 1.15rem;
+      }
+
+      .ingredient-modal {
+        padding: 25px 18px;
+        border-radius: 20px;
+      }
+
+      .modal-cookie-img {
+        width: 90px;
+        height: 90px;
+      }
+
+      .modal-actions {
+        flex-direction: column;
+      }
+
+      .modal-cookie-header h2 {
+        font-size: 1.15rem;
+      }
+
+      .modal-ingredients-list {
+        justify-content: center;
+      }
+    }
+
 /* ================= CARDS SECTION ================= */
 .cards-section {
   padding: 40px 20px;
@@ -2929,6 +3558,7 @@ section {
 }
 
 /* ================= FOR ALL RESPONSIVE ================= */
+ 
 @media (max-width: 768px) {
   .navbar-inner {
     flex-direction: column;

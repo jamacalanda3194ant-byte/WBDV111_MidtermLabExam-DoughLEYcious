@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dough LEYcious - Freshly baked cookies made with love. Order now!">
+  <title>Dough Leycious - Home</title>
+
+  <!-- link sa css -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- for icons/emojis -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- for font only -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- favicon -->
+  <link rel="icon" type="image/png" href="images/logo.png">
+</head>
+<body>
+
+<!-- ================= for navigation bar ================= -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="images/logo.png" alt="Dough LEYcious Logo" class="nav-logo-img">
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="cookies.html">Menu</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="aboutus.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cart.html">🛒 Cart (<span id="cart-count">0</span>)</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="main-content">
+
+    <header class="header">
+    <img src="images/header.jpg" alt="Cookie menu banner for Dough LEYcious" loading="lazy">
+    <div class="header-overlay">
+      <h1>Our Cookie Menu 🍪</h1>
+      <p>Hover to spin, click to discover what's inside!</p>
+    </div>
+  </header>
+
+<!-- ================= Menu Hero ================= -->
+<section class="menu-welcome">
+    <div class="container">
+      <h2>Explore Our Cookies</h2>
+      <p>Freshly baked, made with the finest ingredients 💛</p>
+      <div class="menu-actions">
+        <a href="shop.html" class="menu-btn-primary">
+          <i class="fas fa-store"></i> Shop Now
+        </a>
+        <a href="cart.html" class="menu-btn-outline">
+          <i class="fas fa-shopping-cart"></i> View Cart
+        </a>
+      </div>
+    </div>
+  </section>
+
+<!-- ================= Cookie Menu List ================= -->
+  <div class="menu-container">
+
+    <!-- ===== CLASSIC COOKIES ===== -->
+    <h3 class="category-title">🍫 Classic Cookies <span class="menu-count">5 flavors</span></h3>
+
+    <div class="cookie-grid">
+
+      <!-- Cookie 1 -->
+      <div class="cookie-grid-card" onclick="openIngredientModal(this)" 
+        data-name="Classic Chocolate Chip"
+        data-tagline="The timeless favorite everyone loves"
+        data-price="₱45.00"
+        data-img="images/no bg choco chip cookies.png"
+            data-description="FASDFASFDASDFDASFASDFAFDASFASD"
+                data-ingredients="SADFASDFASFASFDASFSDAF, ASDFASDFASDFASDFASDFA, ASDFASDFASDFASDFASDFA"
+                    data-allergens="Contains: OPO, OPO, OPO, OPO">
+        <div class="cookie-img-wrapper">
+          <img src="images/no bg choco chip cookies.png" alt="Classic Chocolate Chip Cookie">
+        </div>
+        <h3>Classic Chocolate Chip</h3>
+        <p class="cookie-tagline">The timeless favorite everyone loves</p>
+        <span class="cookie-price">₱45.00</span>
+        <button class="view-ingredients-btn" onclick="event.stopPropagation(); openIngredientModal(this.parentElement)">
+          <i class="fas fa-list-ul"></i> View Ingredients
+        </button>
+      </div>
+
+      <!-- Cookie 2 -->
+      <div class="cookie-grid-card" onclick="openIngredientModal(this)"
+        data-name="Oatmeal Chocolate"
+        data-tagline="Rich, fudgy, and intensely chocolatey"
+        data-price="₱999.00"
+        data-img="images/no bg choco chip oats.png"
+            data-description=" ASFASDFDASFASFDASDFAFDA "
+                data-ingredients="FDASFASD, FDSAFA,DASFDSAF ,FASDFAS,F DASF"
+                    data-allergens="Contains: OPO, OPO, OPO, OPO">
+        <div class="cookie-img-wrapper">
+          <img src="images/no bg choco chip oats.png" alt="Oatmeal Chocolate Cookie">
+        </div>
+        <h3>Oatmeal Chocolate</h3>
+        <p class="cookie-tagline">Rich, fudgy, and intensely chocolatey</p>
+        <span class="cookie-price">₱999.00</span>
+        <button class="view-ingredients-btn" onclick="event.stopPropagation(); openIngredientModal(this.parentElement)">
+          <i class="fas fa-list-ul"></i> View Ingredients
+        </button>
+      </div>
+
+      <!-- Cookie 3 -->
+      <div class="cookie-grid-card" onclick="openIngredientModal(this)"
+        data-name="Biscoff"
+        data-tagline="Caramelized cookie with a hint of cinnamon"
+        data-price="₱50.00"
+        data-img="images/no bg cookie biscoff.png"
+            data-description="ASDFASDFASDFAFDASDFASDFASDFAS"
+                data-ingredients="FDASFASD, FDSAFA,DASFDSAF ,FASDFAS,F DASF"
+                    data-allergens="Contains: OPO, OPO, OPO, OPO">
+        <div class="cookie-img-wrapper">
+          <img src="images/no bg cookie biscoff.png" alt="Biscoff Cookie">
+        </div>
+        <h3>Biscoff</h3>
+        <p class="cookie-tagline">Caramelized cookie with a hint of cinnamon</p>
+        <span class="cookie-price">₱50.00</span>
+        <button class="view-ingredients-btn" onclick="event.stopPropagation(); openIngredientModal(this.parentElement)">
+          <i class="fas fa-list-ul"></i> View Ingredients
+        </button>
+      </div>
+
+      <!-- Cookie 4 -->
+      <div class="cookie-grid-card" onclick="openIngredientModal(this)"
+        data-name="Oreo"
+        data-tagline="Creamy filling between two chocolate wafers"
+        data-price="₱999.00"
+        data-img="images/no bg oreo cookie.png"
+            data-description="DSFGASGDFASJDFASDFASDFASDFAS"
+                data-ingredients="ASFDASD FAS,DAS FASD,DSAFSDAF,FDSA FASD,ASDFASD"
+                    data-allergens="Contains: OPO, OPO, OPO, OPO">
+        <div class="cookie-img-wrapper">
+          <img src="images/no bg oreo cookie.png" alt="Oreo Cookie">
+        </div>
+        <h3>Oreo</h3>
+        <p class="cookie-tagline">Creamy filling between two chocolate wafers</p>
+        <span class="cookie-price">₱999.00</span>
+        <button class="view-ingredients-btn" onclick="event.stopPropagation(); openIngredientModal(this.parentElement)">
+          <i class="fas fa-list-ul"></i> View Ingredients
+        </button>
+      </div>
+
+      <!-- Cookie 5 -->
+      <div class="cookie-grid-card" onclick="openIngredientModal(this)"
+        data-name="S'mores Cookie"
+        data-tagline="Graham, chocolate & toasted marshmallow"
+        data-price="₱999.00"
+        data-img="images/no bg smores.png"
+            data-description="ASDFASDFASDFAFDASDFASDFASDFAS"
+                data-ingredients="FDASFASD, FDSAFA,DASFDSAF ,FASDFAS,F DASF"
+                    data-allergens="Contains: OPO, OPO, OPO, OPO">
+        <div class="cookie-img-wrapper">
+          <img src="images/no bg smores.png" alt="S'mores Cookie">
+        </div>
+        <h3>S'mores Cookie</h3>
+        <p class="cookie-tagline">Graham, chocolate & toasted marshmallow</p>
+        <span class="cookie-price">₱999.00</span>
+        <button class="view-ingredients-btn" onclick="event.stopPropagation(); openIngredientModal(this.parentElement)">
+          <i class="fas fa-list-ul"></i> View Ingredients
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ===== SPECIALTY ===== -->
+    <h3 class="category-title">🌟 Specialty <span class="menu-count">4 NEW Cravings</span></h3>
+
+    <div class="cookie-grid">
+
+      <!-- Specialty 1 -->
+      <div class="cookie-grid-card" onclick="openIngredientModal(this)"
+        data-name="Chocolate Cake"
+        data-tagline="Simple chocolate cake good for special dates!"
+        data-price="₱999.00"
+        data-img="images/no bh chocolate cake.png"
+            data-description="ASDFASDFDSAFGDSFAHGFSGHDFHGSDHGFSAD"
+                data-ingredients="FDASFASD, FDSAFA,DASFDSAF ,FASDFAS,F DASF"
+                    data-allergens="Contains: OPO, OPO, OPO, OPO">
+        <div class="cookie-img-wrapper">
+          <img src="images/no bh chocolate cake.png" alt="Chocolate Cake Cookie">
+        </div>
+        <h3>Chocolate Cake</h3>
+        <p class="cookie-tagline">Simple chocolate cake good for special dates!</p>
+        <span class="cookie-price">₱999.00</span>
+        <button class="view-ingredients-btn" onclick="event.stopPropagation(); openIngredientModal(this.parentElement)">
+          <i class="fas fa-list-ul"></i> View Ingredients
+        </button>
+      </div>
+
+      <!-- Specialty 2 -->
+      <div class="cookie-grid-card" onclick="openIngredientModal(this)"
+        data-name="Dark Chocolate"
+        data-tagline="Rich, intense chocolate flavor"
+        data-price="₱999.00"
+        data-img="images/no bg dark chocolate.png"
+            data-description="ASDFASFDADAFDSAFDADSAF"
+                data-ingredients=" ASDFASDF, ASDFAS,FD SAFA,SDF ASDSAFSAD"
+                    data-allergens="Contains: OPO, OPO, OPO, OPO">
+        <div class="cookie-img-wrapper">
+          <img src="images/no bg dark chocolate.png" alt="Dark Chocolate Cookie">
+        </div>
+        <h3>Dark Chocolate</h3>
+        <p class="cookie-tagline">Rich, intense chocolate flavor</p>
+        <span class="cookie-price">₱999.00</span>
+        <button class="view-ingredients-btn" onclick="event.stopPropagation(); openIngredientModal(this.parentElement)">
+          <i class="fas fa-list-ul"></i> View Ingredients
+        </button>
+      </div>
+
+      <!-- Specialty 3 -->
+      <div class="cookie-grid-card" onclick="openIngredientModal(this)"
+        data-name="Chocolate Chip Cake"
+        data-tagline="A delightful blend of cake and cookie textures"
+        data-price="₱999.00"
+        data-img="images/no bg choco chip cake .png"
+            data-description="DSAFASDFASFDSGAADGFDDJFGHHJGF"
+                data-ingredients="ASFASDAHGFJHG SDFGSDGSDFGFSD ,D AFFD AS,FDAS FASF SAFA"
+                    data-allergens="Contains: OPO, OPO, OPO, OPO">
+        <div class="cookie-img-wrapper">
+          <img src="images/no bg choco chip cake .png" alt="Chocolate Chip Cake Cookie">
+        </div>
+        <h3>Chocolate Chip Cake</h3>
+        <p class="cookie-tagline">A delightful blend of cake and cookie textures</p>
+        <span class="cookie-price">₱999.00</span>
+        <button class="view-ingredients-btn" onclick="event.stopPropagation(); openIngredientModal(this.parentElement)">
+          <i class="fas fa-list-ul"></i> View Ingredients
+        </button>
+      </div>
+
+      <!-- Specialty 4 -->
+      <div class="cookie-grid-card" onclick="openIngredientModal(this)"
+        data-name="Cheese Bread"
+        data-tagline="Flaky, buttery, and filled with creamy cheese"
+        data-price="₱999.00"
+        data-img="images/no bg cheesebread.png"
+            data-description="ASDFASDFASDFAFDASDFASDFASDFAS"
+                data-ingredients="DSAFDASFASDFASFDASFASDFA"
+                    data-allergens="Contains: OPO, OPO, OPO, OPO">
+        <div class="cookie-img-wrapper">
+          <img src="images/no bg cheesebread.png" alt="Cheese Bread">
+        </div>
+        <h3>Cheese Bread</h3>
+        <p class="cookie-tagline">Flaky, buttery, and filled with creamy cheese</p>
+        <span class="cookie-price">₱999.00</span>
+        <button class="view-ingredients-btn" onclick="event.stopPropagation(); openIngredientModal(this.parentElement)">
+          <i class="fas fa-list-ul"></i> View Ingredients
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
+
+<!-- ================= Ingredient Modal ================= -->
+<div class="ingredient-modal-overlay" id="ingredientModal">
+  <div class="ingredient-modal">
+    <button class="modal-close-btn" onclick="closeIngredientModal()">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <div class="modal-cookie-header">
+      <img src="" alt="" class="modal-cookie-img" id="modalImg">
+      <h2 id="modalName"></h2>
+      <p class="modal-tagline" id="modalTagline"></p>
+      <span class="modal-price" id="modalPrice"></span>
+    </div>
+
+    <p class="modal-description" id="modalDescription"></p>
+
+    <h4 class="modal-ingredients-title">📋 Ingredients</h4>
+    <ul class="modal-ingredients-list" id="modalIngredients"></ul>
+
+    <div class="modal-allergen" id="modalAllergen">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span id="modalAllergenText"></span>
+    </div>
+
+    <div class="modal-actions">
+      <a href="shop.html" class="modal-shop-btn">
+        <i class="fas fa-store"></i> Shop Now
+      </a>
+      <button class="modal-close-action" onclick="closeIngredientModal()">
+        <i class="fas fa-arrow-left"></i> Back to Menu
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= Footer ================= -->
+<footer class="footer footer-menu-page">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>Find Us</h3>
+      <div class="socials">
+        <a href="https://www.facebook.com/profile.php?id=61567054065532" aria-label="Visit our Facebook page">
+          <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://www.instagram.com/dough_leycious/" aria-label="Visit our Instagram page">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="cookies.html">Menu</a>
+      <a href="aboutus.html">About Us</a>
+    </div>
+
+    <div class="footer-section">
+      <h3>Contact</h3>
+      <p>📧 <a href="mailto:k.munsayac1109@gmail.com">k.munsayac1109@gmail.com</a></p>
+      <p>📍 Available for delivery</p>
+      <a href="contact.html" class="contact-page-link">💬 Send us a message</a>
+    </div>
+  </div>
+
+  <hr class="footer-divider">
+
+  <div class="footer-bottom">
+    <p>&copy; 2024 <span>Dough LEYcious</span>. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

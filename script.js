@@ -11,6 +11,65 @@ function updateCartCount() {
 // -------------------- para pag every load ng page nag u-update --------------------
 updateCartCount();
 
+// Open ingredient modal
+  function openIngredientModal(card) {
+    const modal = document.getElementById('ingredientModal');
+    const name = card.getAttribute('data-name');
+    const tagline = card.getAttribute('data-tagline');
+    const price = card.getAttribute('data-price');
+    const img = card.getAttribute('data-img');
+    const description = card.getAttribute('data-description');
+    const ingredients = card.getAttribute('data-ingredients').split(',');
+    const allergens = card.getAttribute('data-allergens');
+
+    // Populate modal
+    document.getElementById('modalImg').src = img;
+    document.getElementById('modalImg').alt = name;
+    document.getElementById('modalName').textContent = name;
+    document.getElementById('modalTagline').textContent = tagline;
+    document.getElementById('modalPrice').textContent = price;
+    document.getElementById('modalDescription').textContent = description;
+    document.getElementById('modalAllergenText').textContent = allergens;
+
+    // Build ingredients list
+    const list = document.getElementById('modalIngredients');
+    list.innerHTML = '';
+    ingredients.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item.trim();
+      list.appendChild(li);
+    });
+
+    // Show modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Close ingredient modal
+  function closeIngredientModal() {
+    const modal = document.getElementById('ingredientModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Close modal when clicking overlay
+  document.getElementById('ingredientModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeIngredientModal();
+    }
+  });
+
+  // Close modal with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeIngredientModal();
+    }
+  });
+
+
+  // Run on page load
+  updateCartCount();
+
 // ================= notification =================
 function showToast(message) {
   let toast = document.getElementById("toast");
