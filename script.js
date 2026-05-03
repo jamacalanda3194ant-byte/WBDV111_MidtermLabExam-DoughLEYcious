@@ -8,7 +8,25 @@ function updateCartCount() {
   });
 }
 
-// ================= Open ingredient modal =================
+// ================= carousel (header)=================
+let slides = document.querySelectorAll(".slide");
+let current = 0;
+
+function showSlide(index) {
+  slides.forEach((slide) => slide.classList.remove("active"));
+  slides[index].classList.add("active");
+}
+
+function nextSlide() {
+  current = (current + 1) % slides.length;
+  showSlide(current);
+}
+
+// auto change header every 3 seconds
+setInterval(nextSlide, 3000);
+
+
+// ================= Open ingredient modal (for menu) =================
 function openIngredientModal(card) {
   const modal = document.getElementById("ingredientModal");
   if (!modal) return;
@@ -41,7 +59,7 @@ function openIngredientModal(card) {
   document.body.style.overflow = "hidden";
 }
 
-// ================= Close ingredient modal =================
+// ================= Close ingredient modal (for menu) =================
 function closeIngredientModal() {
   const modal = document.getElementById("ingredientModal");
   if (!modal) return;
@@ -144,6 +162,7 @@ function selectOrder(type) {
     "6pcs": "Box of 6 selected! 🍪",
     "8pcs": "Box of 8 selected! 🍪🍪",
     "12pcs": "Box of 12 selected! 🍪🍪🍪",
+    "per piece": "Per piece order selected! 🍪",
   };
 
   showToast(messages[type] || "Order selected!");
@@ -278,6 +297,7 @@ function clearCart() {
 
   showConfirmToast("Are you sure you want to clear your cart?", () => {
     localStorage.removeItem("cart");
+    localStorage.removeItem("orderType");
     showToast("🗑️ Cart cleared!");
 
     setTimeout(() => {
@@ -324,8 +344,24 @@ function displayCheckoutItems() {
 
   // ------------ build items HTML and calculate subtotal ------------
   let subtotal = 0;
+  let orderType = localStorage.getItem("orderType") || "";
   let itemsHTML = "";
 
+if (orderType) {
+  let cookieList = cart.map(item => item.name).join(", ");
+
+  itemsHTML += `
+    <div class="box-summary">
+      <p><strong>
+        ${orderType === "per piece" 
+          ? "🍪 Your selected cookies per piece:" 
+          : `🍪 Your box of ${orderType} contains:`}
+      </strong></p>
+      <p>${cookieList}</p>
+      <hr>
+    </div>
+  `;
+}
   cart.forEach((item) => {
     let itemTotal = item.price * item.qty;
     subtotal += itemTotal;
@@ -377,7 +413,26 @@ function openCheckoutModal() {
 
   const summaryContainer = document.getElementById("modal-summary");
   if (summaryContainer) {
+    let orderType = localStorage.getItem("orderType") || "";
+
     let summaryHTML = `<h4>📋 Order Summary</h4>`;
+
+    if (orderType) { 
+      summaryHTML += `
+      <p class="box-message">
+      🍪 Your box of ${orderType} contains:
+      </p>
+      `;
+    }
+    let cookieList = cart.map(item => item.name).join(", ");
+
+    if (orderType && cookieList) {
+      summaryHTML += `
+        <p class="box-summary-text">
+          (${cookieList})
+        </p>
+      `;
+    }
 
     cart.forEach((item) => {
       summaryHTML += `
@@ -734,3 +789,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+

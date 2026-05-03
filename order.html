@@ -74,7 +74,7 @@
             <li>✅ Mix & match flavors</li>
             <li>✅ Gift-ready packaging</li>
           </ul>
-          <p class="box-price">₱299</p>
+          <p class="box-price">₱999</p>
           <button class="box-btn" onclick="selectOrder('6pcs')">
             Select Box of 6
           </button>
@@ -94,7 +94,7 @@
             <li>✅ Mix & match flavors</li>
             <li>✅ Gift-ready packaging</li>
           </ul>
-          <p class="box-price">₱389</p>
+          <p class="box-price">₱999</p>
           <button class="box-btn popular-btn" onclick="selectOrder('8pcs')">
             Select Box of 8
           </button>
@@ -115,9 +115,28 @@
             <li>✅ Gift-ready packaging</li>
             <li>✅ Free greeting card 💌(optional)</li>
           </ul>
-          <p class="box-price">₱549</p>
+          <p class="box-price">₱999</p>
           <button class="box-btn" onclick="selectOrder('12pcs')">
             Select Box of 12
+          </button>
+        </div>
+
+        <!-- PER PIECE -->
+        <div class="box-card" onclick="selectOrder('per piece')">
+          <div class="box-badge">Flexible</div>
+          <div class="box-icon">🍪</div>
+          <h3>Per Piece</h3>
+          <p class="box-desc">
+            Order cookies individually. Perfect if you only want a few!
+          </p>
+          <ul class="box-perks">
+            <li>✅ No minimum quantity</li>
+            <li>✅ Choose any flavor</li>
+            <li>✅ Budget-friendly option</li>
+          </ul>
+          <p class="box-price">Starts at ₱999</p>
+          <button class="box-btn" onclick="selectOrder('per piece')">
+            Select Per Piece
           </button>
         </div>
 
@@ -229,12 +248,6 @@
 </footer>
 
 <script src="script.js"></script>
-<script>
-  function selectOrder(type) {
-    localStorage.setItem("orderType", type);
-    window.location.href = "shop.html";
-  }
-</script>
 
 </body>
 </html>
