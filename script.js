@@ -168,13 +168,13 @@ function selectOrder(type) {
   showToast(messages[type] || "Order selected!");
 
   setTimeout(() => {
-    window.location.href = "shop.html";
+    window.location.href = "menu.html";
   }, 1000);
 }
 
 // ================= navigation =================
 function goToShop() {
-  window.location.href = "shop.html";
+  window.location.href = "menu.html";
 }
 
 function goToOrderPage() {
@@ -399,7 +399,15 @@ if (orderType) {
 
 // ================= OPEN CHECKOUT MODAL (form.html) =================
 function openCheckoutModal() {
+  // Require Terms & Conditions agreement (per session) before opening checkout form.
+  const alreadyAgreed = sessionStorage.getItem("termsAgreed") === "true";
+  if (!alreadyAgreed) {
+    openTermsModal();
+    return;
+  }
+
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
 
   if (cart.length === 0) {
     showToast("⚠️ Your cart is empty! Add some cookies first 🍪");
@@ -480,8 +488,56 @@ function closeCheckoutModal() {
   }
 }
 
+// ================= TERMS MODAL =================
+function openTermsModal() {
+  const modal = document.getElementById("terms-modal");
+  if (!modal) return;
+
+  const checkbox = document.getElementById("terms-agree-checkbox");
+  const errorEl = document.getElementById("terms-error");
+
+  if (errorEl) errorEl.style.display = "none";
+  if (checkbox) checkbox.checked = false;
+
+  modal.classList.add("active");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeTermsModal() {
+  const modal = document.getElementById("terms-modal");
+  if (!modal) return;
+  modal.classList.remove("active");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+function agreeAndProceed() {
+  // Mark agreement first so openCheckoutModal won't re-open the terms modal.
+  sessionStorage.setItem("termsAgreed", "true");
+
+  const checkbox = document.getElementById("terms-agree-checkbox");
+
+
+  const errorEl = document.getElementById("terms-error");
+
+  if (!checkbox) return;
+
+  if (!checkbox.checked) {
+    if (errorEl) errorEl.style.display = "block";
+    showToast("⚠️ Please agree to the Terms and Conditions.");
+    return;
+  }
+
+  closeTermsModal();
+  // After agreement, open the checkout modal normally.
+  openCheckoutModal();
+
+}
+
 // ================= close success modal =================
 function closeSuccessModal() {
+
   const modal = document.getElementById("success-modal");
   if (modal) {
     modal.classList.remove("active");
@@ -714,6 +770,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("click", function (e) {
     const checkoutModal = document.getElementById("checkout-modal");
     const successModal = document.getElementById("success-modal");
+    const termsModal = document.getElementById("terms-modal");
 
     if (e.target === checkoutModal) {
       closeCheckoutModal();
@@ -721,16 +778,22 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === successModal) {
       closeSuccessModal();
     }
+    if (termsModal && e.target === termsModal) {
+      closeTermsModal();
+    }
   });
+
 
   // ================= ESC key closes all modals =================
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
       closeIngredientModal();
       closeCheckoutModal();
+      closeTermsModal();
       closeSuccessModal();
     }
   });
+
 
   // ================= Full Name: block numbers in real-time =================
   const nameInput = document.getElementById("checkout-name");
@@ -789,4 +852,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-

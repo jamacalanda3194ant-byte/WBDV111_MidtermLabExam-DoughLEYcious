@@ -30,8 +30,7 @@
 
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="cookies.html">Menu</a></li>
-                <li><a href="shop.html">Shop</a></li>
+                <li><a href="menu.html">Menu</a></li>
                 <li><a href="aboutus.html">About Us</a></li>
                 <li><a href="contact.html">Contact</a></li>
                 <li><a href="cart.html">🛒 Cart (<span id="cart-count">0</span>)</a></li>
@@ -61,7 +60,7 @@
                             <div class="empty-icon">🛒</div>
                             <h3>Your cart is empty</h3>
                             <p>Add some delicious cookies before checking out!</p>
-                            <a href="shop.html" class="shop-now-btn">Browse Shop</a>
+                            <a href="menu.html" class="shop-now-btn">Browse Menu</a>
                         </div>
                     </div>
 
@@ -90,21 +89,12 @@
                         <div class="payment-option">
                             <div class="payment-icon">📱</div>
                             <div class="payment-details">
-                                <strong>Paymaya</strong>
+                                <strong>G-cash</strong>
                                 <p>0912-345-6789</p>
                                 <p class="payment-name">Dough LEYcious</p>
                             </div>
                         </div>
-                        <div class="payment-option">
-                            <div class="payment-icon">🏦</div>
-                            <div class="payment-details">
-                                <strong>Bank Transfer</strong>
-                                <p>1234-5678-9012</p>
-                                <p class="payment-name">Dough LEYcious Bakeshop</p>
-                            </div>
-                        </div>
-                    </div>
-
+                        
                     <div class="payment-reminder">
                         <p>⚠️ Please send the exact amount and keep your receipt/screenshot for proof of payment.</p>
                     </div>
@@ -119,14 +109,52 @@
 
     </main>
 
+    <!-- ================= TERMS & CONDITIONS MODAL ================= -->
+    <div class="modal-overlay" id="terms-modal" aria-hidden="true">
+        <div class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="terms-title">
+            <button class="modal-close" type="button" onclick="closeTermsModal()">&times;</button>
+
+            <div class="modal-header">
+                <div class="modal-icon">📜</div>
+                <h2 id="terms-title">Terms and Conditions</h2>
+                <p>Please agree before proceeding to checkout.</p>
+            </div>
+
+            <div class="terms-body">
+                <div class="terms-text">
+                    <p><strong>1.</strong> Your order will be processed based on the items currently in your cart.</p>
+                    <p><strong>2.</strong> Please ensure the delivery details you provide are accurate.</p>
+                    <p><strong>3.</strong> Confirmation of payment proof may be required to finalize your order.</p>
+                    <p style="margin-top:12px;"><strong>For complete details:</strong> <a href="terms.html" target="_blank" rel="noopener">Read our full Terms</a></p>
+                </div>
+
+                <label class="terms-agree">
+                    <input type="checkbox" id="terms-agree-checkbox" />
+                    <span>I agree to the Terms and Conditions</span>
+                </label>
+                <div class="terms-error" id="terms-error" style="display:none;">
+
+                    ⚠️ Please check the box to agree.
+                </div>
+
+                <button type="button" class="checkout-submit-btn" onclick="agreeAndProceed()">
+                    ✅ Agree & Proceed
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- ================= CHECKOUT MODAL(para sa fill up form) ================= -->
     <div class="modal-overlay" id="checkout-modal">
-        <div class="checkout-modal">
+
+        <div class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-form-title">
+
             <button class="modal-close" onclick="closeCheckoutModal()">&times;</button>
 
             <div class="modal-header">
                 <div class="modal-icon">🍪</div>
-                <h2>Complete Your Order</h2>
+                <h2 id="checkout-form-title">Complete Your Order</h2>
+
                 <p>Fill in your delivery details below</p>
             </div>
 
@@ -178,7 +206,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Special Instructions (Optional)</label>
+                    <label>Other Messages (Optional)</label>
                     <textarea id="checkout-notes" placeholder="Any special requests or notes..."></textarea>
                 </div>
 
@@ -226,8 +254,9 @@
     <div class="footer-section">
       <h3>Quick Links</h3>
         <a href="index.html">Home</a>
-          <a href="shop.html">Shop</a>
+          <a href="menu.html">Menu</a>
         <a href="aboutus.html">About Us</a>
+        <a href="terms.html">Terms and Conditions</a>
     </div>
 
     <div class="footer-section">
