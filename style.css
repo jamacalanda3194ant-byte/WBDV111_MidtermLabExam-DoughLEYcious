@@ -115,6 +115,24 @@ section {
   align-items: center;
 }
 
+/* ===== HAMBURGER MENU (hidden on desktop) ===== */
+.nav-toggle-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #c8a97e;
+  font-size: 1.35rem;
+  padding: 8px 10px;
+  border-radius: 10px;
+  line-height: 1;
+}
+
+.nav-toggle-btn:hover {
+  color: #fff;
+  background: rgba(200, 169, 126, 0.15);
+}
+
 .nav-links a {
   color: #c8a97e;
   text-decoration: none;
@@ -505,39 +523,38 @@ section {
       box-shadow: 0 20px 45px rgba(103, 72, 70, 0.22);
     }
 
-    /* ---- Cookie Image with Spin ---- */
-    .cookie-img-wrapper {
-      width: 160px;
-      height: 160px;
-      margin: 0 auto 18px;
-      border-radius: 50%;
-      overflow: hidden;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #fff8dc;
-      border: 3px solid #f0e6d3;
-      transition: all 0.3s ease;
-    }
+    /* ----Cookie Image with Spin ---- */
+.cookie-img-wrapper {
+    width: 190px;
+    height: 190px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff8dc;
+    border: 3px solid #f0e6d3;
+    transition: all 0.3s ease;
+}
+  .cookie-grid-card:hover .cookie-img-wrapper {
+   border-color: #c8a97e;
+  box-shadow: 0 8px 30px rgba(103, 72, 70, 0.2);
+}
 
-    .cookie-grid-card:hover .cookie-img-wrapper {
-      border-color: #c8a97e;
-      box-shadow: 0 8px 30px rgba(103, 72, 70, 0.2);
-    }
-
-    .cookie-img-wrapper img {
-      width: 130px;
-      height: 130px;
-      object-fit: contain;
-      transition: transform 0.8s ease;
-      border-radius: 0;
-      border: none;
-    }
-
+/* FULL IMAGE */
+.cookie-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+     border-radius: 50%;
+}
+        /* SPIN EFFECT */
     .cookie-grid-card:hover .cookie-img-wrapper img {
-      transform: rotate(360deg) scale(1.1);
-    }
+ transform: rotate(360deg);
+}
 
     /* ---- Cookie Card Info ---- */
     .cookie-grid-card h3 {
@@ -2117,6 +2134,7 @@ section {
 }
 
 /* ================= confirmation toast ================= */
+
 .confirm-toast-overlay {
   position: fixed;
   top: 0;
@@ -3677,6 +3695,38 @@ section {
 /* ================= FOR ALL RESPONSIVE ================= */
  
 @media (max-width: 768px) {
+  .nav-toggle-btn {
+    display: inline-flex;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    max-height: 0;
+    padding: 0;
+    margin-top: 0;
+    transition: max-height 0.25s ease, padding 0.25s ease;
+  }
+
+  .nav-links.nav-open {
+    max-height: 420px;
+    padding: 12px 0 16px;
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+
   .navbar-inner {
     flex-direction: column;
     align-items: center;
@@ -3812,26 +3862,18 @@ section {
     text-align: center;
   }
 
+  /* stack cart columns on smaller screens */
   .cart-wrapper {
-    flex-direction: column;
-  }
-
-  .cart-left {
-    width: 100%;
-  }
-.cart-wrapper {
     flex-direction: column;
     align-items: center;
   }
 
-  .cart-left {
-    width: 100%;
-  }
-
+  .cart-left,
   .cart-right {
     width: 100%;
   }
 }
+
 
 @media (max-width: 480px) {
   .navbar-inner {
@@ -3964,7 +4006,7 @@ section {
     justify-content: center;
   }
 
-.cart-wrapper {
+  .cart-wrapper {
     flex-direction: column;
     align-items: center;
   }
@@ -3999,8 +4041,7 @@ section {
     text-align: center;
     width: 100%;
   }
-
-  .socials {
+  .quantity {
     justify-content: center;
   }
 }

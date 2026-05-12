@@ -112,6 +112,9 @@ function addModalToCart() {
     displayCart();
   }
 
+  // Reset modal quantity input back to 0 after adding
+  if (qtyInput) qtyInput.value = 0;
+
   showToast(`✅ ${name} added to cart!`);
 }
 
@@ -231,6 +234,13 @@ function goToOrderPage() {
 }
 
 // ================= cart page =================
+let deliveryFee = 50;
+const deliveryRates = {
+ manila: { base: 50, minOrder: 300 },
+ near: { base: 80, minOrder: 500 },
+ far: { base: 120, minOrder: 800 }
+};
+
 function displayCart() {
   const cartContainer = document.getElementById("cart-items");
   const subtotalDisplay = document.getElementById("subtotal-price");
@@ -519,8 +529,79 @@ function openCheckoutModal() {
     dateInput.setAttribute("min", today);
   }
 
-  // --------------------- show modal ---------------------
+  // ================= DELIVERY FEE AUTO UPDATE (address then total) =================
+  const deliveryLocationEl = document.getElementById("delivery-location");
+  const deliveryEl = document.getElementById("delivery-fee");
+  const orderTotalEl = document.getElementById("order-total");
+  const checkoutAddressEl = document.getElementById("checkout-address");
+
+  // compute initial values
+  const cartForFee = JSON.parse(localStorage.getItem("cart")) || [];
+  const baseSubtotal = cartForFee.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+  const addressContainsMarikina = () => {
+    const address = String(checkoutAddressEl?.value || "").toLowerCase();
+    return address.includes("marikina");
+  };
+
+  // Use same delivery rates as cart page (fallback to ₱50 if missing)
+  const resolvedDeliveryFeeFromLocation = (locationValue) => {
+    const location = String(locationValue || "manila").toLowerCase();
+    const rates = {
+      manila: { base: 50, minOrder: 300 },
+      near: { base: 80, minOrder: 500 },
+      far: { base: 120, minOrder: 800 },
+    };
+
+    const chosen = rates[location] || rates.manila;
+    
+    // free delivery rules (by min order)
+    if (baseSubtotal >= chosen.minOrder) return 0;
+    return chosen.base;
+  };
+
+  const updateTotals = (fee) => {
+    const safeFee = Number(fee) || 0;
+    if (deliveryEl) deliveryEl.textContent = "₱" + safeFee.toFixed(2);
+    if (orderTotalEl) {
+      const total = baseSubtotal + safeFee;
+      orderTotalEl.textContent = "₱" + total.toFixed(2);
+    }
+  };
+
+  const refreshDeliveryFee = () => {
+
+    // If nag enter user na taga Marikina sa address, delivery fee is FREE.
+    if (addressContainsMarikina()) {
+      updateTotals(0);
+      return;
+    }
+
+    if (deliveryLocationEl) {
+      const fee = resolvedDeliveryFeeFromLocation(deliveryLocationEl.value);
+      updateTotals(fee);
+      return;
+    }
+
+    // fallback to fixed base fee (current behavior)
+    updateTotals(50);
+  };
+
+  // initial fee calculation on modal open
+  refreshDeliveryFee();
+
+  // for changes in delivery location or address input
+  if (deliveryLocationEl) {
+    deliveryLocationEl.addEventListener("change", refreshDeliveryFee);
+  }
+  if (checkoutAddressEl) {
+    checkoutAddressEl.addEventListener("input", refreshDeliveryFee);
+    checkoutAddressEl.addEventListener("change", refreshDeliveryFee);
+  }
+
+  // ===================== show modal =====================
   const modal = document.getElementById("checkout-modal");
+
   if (modal) {
     modal.classList.add("active");
     document.body.style.overflow = "hidden";
@@ -561,7 +642,8 @@ function closeTermsModal() {
 }
 
 function agreeAndProceed() {
-  // Mark agreement first so openCheckoutModal won't re-open the terms modal.
+
+  // terms and conditions agreement (one time lang to per session)
   sessionStorage.setItem("termsAgreed", "true");
 
   const checkbox = document.getElementById("terms-agree-checkbox");
@@ -603,9 +685,12 @@ function showFileName(input) {
 
 // ================= INPUT VALIDATION =================
 function validateName(name) {
-  const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s\-'.]+$/;
+  // Letters + spaces only (no special characters)
+  // Example allowed: "Arvic Pelinta", "Juan Dela Cruz"
+  const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/;
   return nameRegex.test(name);
 }
+
 
 // ------------- validate phone - exactly 11 digits, no letters ------------------
 function validatePhone(phone) {
@@ -630,8 +715,44 @@ function submitOrder(event) {
   const name = document.getElementById("checkout-name").value.trim();
   const phone = document.getElementById("checkout-phone").value.trim();
   const address = document.getElementById("checkout-address").value.trim();
+
+  // ================= puwede lang delivery locs between ncr =================
+  const ncrKeywords = [
+    "ncr",
+      "metro manila",
+        "manila",
+          "quezon city",
+        "makati",
+          "pasig",
+        "taguig",
+          "muntinlupa",
+      "paranaque",
+        "las piñas",
+      "las pinas",
+        "valenzuela",
+          "malabon",
+      "navotas",
+        "caloocan",
+      "marikina",
+        "pasay",
+      "pateros",
+    "antipolo",
+  ];
+
+  const isNcr = (() => {
+    const addr = String(address || "").toLowerCase();
+    return ncrKeywords.some((k) => addr.includes(k));
+  })();
+
+  if (!isNcr) {
+    showToast("❌ Delivery is available within NCR only. Please enter an NCR address.");
+    document.getElementById("checkout-address").focus();
+    return;
+  }
+
   const date = document.getElementById("checkout-date").value;
   const time = document.getElementById("checkout-time").value;
+
   const proof = document.getElementById("checkout-proof").files[0];
   const notes = document.getElementById("checkout-notes")
     ? document.getElementById("checkout-notes").value.trim()
@@ -734,6 +855,43 @@ function getTotal() {
 
 // ================= EVERYTHING RUNS ON DOM READY =================
 document.addEventListener("DOMContentLoaded", () => {
+  // ================= hamburger menu (slide down) =================
+  // Works across all pages that have .navbar, .nav-toggle-btn and .nav-links
+  document.querySelectorAll(".navbar").forEach((navbar) => {
+    const btn = navbar.querySelector(".nav-toggle-btn");
+    const links = navbar.querySelector(".nav-links");
+    if (!btn || !links) return;
+
+    // start closed
+    links.classList.remove("nav-open");
+    btn.setAttribute("aria-expanded", "false");
+
+    const toggle = () => {
+      const isOpen = links.classList.toggle("nav-open");
+      btn.setAttribute("aria-expanded", String(isOpen));
+    };
+
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggle();
+    });
+
+    // close when clicking a menu option
+    links.querySelectorAll("a").forEach((a) => {
+      a.addEventListener("click", () => {
+        links.classList.remove("nav-open");
+        btn.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    // close when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!navbar.contains(e.target)) {
+        links.classList.remove("nav-open");
+        btn.setAttribute("aria-expanded", "false");
+      }
+    });
+  });
   // ---- update cart count on every page ----
   updateCartCount();
   displayCart();
@@ -916,11 +1074,9 @@ document.addEventListener("DOMContentLoaded", () => {
     phoneInput.addEventListener("blur", function () {
       const digitsOnly = this.value.replace(/\D/g, "");
       if (digitsOnly.length > 0 && digitsOnly.length !== 11) {
-        showToast(
-          `⚠️ Phone number must be exactly 11 digits! (currently ${digitsOnly.length})`
+        showToast(`⚠️ Phone number must be exactly 11 digits! (currently ${digitsOnly.length})`
         );
       }
     });
   }
 });
-
