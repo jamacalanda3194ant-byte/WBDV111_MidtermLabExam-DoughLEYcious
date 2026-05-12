@@ -19,6 +19,7 @@ body {
   display: flex;
   flex-direction: column;
   color: #333;
+  padding-top: 110px;
 }
 
 a {
@@ -70,8 +71,10 @@ section {
 /* ================= NAVBAR ================= */
 .navbar {
   background: black;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
 }
@@ -345,6 +348,21 @@ section {
       padding: 60px 20px 20px;
     }
 
+    /* ---- Menu Section Spacing ---- */
+    .category-title {
+      margin-top: 30px;
+      margin-bottom: 12px;
+    }
+
+    .cookie-grid {
+      margin-bottom: 40px;
+    }
+
+    .cookie-grid:last-of-type {
+      margin-bottom: 20px;
+    }
+
+
     .menu-welcome h2 {
       font-size: 2rem;
       color: #674846;
@@ -419,14 +437,7 @@ section {
     }
 
     /* ---- Category Title ---- */
-    .category-title {
-      font-size: 1.4rem;
-      color: #674846;
-      font-weight: 700;
-      margin: 45px 0 25px;
-      text-align: center;
-      position: relative;
-    }
+    
 
     .category-title::after {
       content: '';
@@ -716,15 +727,7 @@ section {
     }
 
     /* ---- Modal Ingredients ---- */
-    .modal-ingredients-title {
-      font-size: 0.95rem;
-      color: #674846;
-      font-weight: 700;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    
 
     .modal-ingredients-list {
       list-style: none;
@@ -752,20 +755,6 @@ section {
       border-color: #674846;
       transform: translateY(-2px);
       box-shadow: 0 4px 10px rgba(103, 72, 70, 0.2);
-    }
-
-    /* ---- Modal Allergen ---- */
-    .modal-allergen {
-      font-size: 0.78rem;
-      color: #b71c1c;
-      background: #fce4ec;
-      padding: 10px 14px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid #f8bbd0;
-      margin-bottom: 20px;
     }
 
     /* ---- Modal Action Buttons ---- */
@@ -801,7 +790,7 @@ section {
     }
 
     .modal-close-action {
-      flex: 1;
+      width: 100%;
       background: white;
       color: #674846;
       border: 2px solid #674846;
@@ -816,6 +805,7 @@ section {
       align-items: center;
       justify-content: center;
       gap: 6px;
+      box-sizing: border-box;
     }
 
     .modal-close-action:hover {
@@ -1314,8 +1304,11 @@ section {
 .quantity {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   margin-top: 5px;
+  margin-bottom: 5px;
+  width: 100%;
 }
 
 .quantity button,
@@ -1392,6 +1385,7 @@ section {
   width: 100%;
   letter-spacing: 0.5px;
   box-shadow: 0 4px 12px rgba(103, 72, 70, 0.25);
+  box-sizing: border-box;
 }
 
 .add-to-cart-btn:hover {
@@ -3334,9 +3328,10 @@ section {
 .footer-divider {
   border: none;
   border-top: 1px solid #333;
-  margin: 20px auto;
+  margin: 30px auto; /* more breathing room above/below divider */
   max-width: 1100px;
 }
+
 
 .footer-bottom {
   text-align: center;

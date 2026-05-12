@@ -25,19 +25,22 @@ function nextSlide() {
 // auto change header every 3 seconds
 setInterval(nextSlide, 3000);
 
-
 // ================= Open ingredient modal (for menu) =================
+let selectedModalCard = null;
+
 function openIngredientModal(card) {
   const modal = document.getElementById("ingredientModal");
   if (!modal) return;
+
+  selectedModalCard = card;
 
   const name = card.getAttribute("data-name");
   const tagline = card.getAttribute("data-tagline");
   const price = card.getAttribute("data-price");
   const img = card.getAttribute("data-img");
   const description = card.getAttribute("data-description");
-  const ingredients = card.getAttribute("data-ingredients").split(",");
-  const allergens = card.getAttribute("data-allergens");
+  const ingredientsData = card.getAttribute("data-ingredients");
+  const ingredients = ingredientsData ? ingredientsData.split(",") : [];
 
   document.getElementById("modalImg").src = img;
   document.getElementById("modalImg").alt = name;
@@ -45,7 +48,9 @@ function openIngredientModal(card) {
   document.getElementById("modalTagline").textContent = tagline;
   document.getElementById("modalPrice").textContent = price;
   document.getElementById("modalDescription").textContent = description;
-  document.getElementById("modalAllergenText").textContent = allergens;
+
+  const qtyInput = modal.querySelector(".quantity input[type='number']");
+  if (qtyInput) qtyInput.value = 0;
 
   const list = document.getElementById("modalIngredients");
   list.innerHTML = "";
@@ -59,6 +64,7 @@ function openIngredientModal(card) {
   document.body.style.overflow = "hidden";
 }
 
+
 // ================= Close ingredient modal (for menu) =================
 function closeIngredientModal() {
   const modal = document.getElementById("ingredientModal");
@@ -66,6 +72,49 @@ function closeIngredientModal() {
   modal.classList.remove("active");
   document.body.style.overflow = "";
 }
+
+// ================= Modal quantity + add to cart (menu.html) =================
+function addModalToCart() {
+  const modal = document.getElementById("ingredientModal");
+  if (!modal) return;
+  if (!selectedModalCard) {
+    showToast("⚠️ Please select an item first!");
+    return;
+  }
+
+  const qtyInput = modal.querySelector(".quantity input[type='number']");
+  const qty = Math.max(0, parseInt(qtyInput ? qtyInput.value : "0", 10) || 0);
+
+  if (qty <= 0) {
+    showToast("⚠️ Please select a quantity first!");
+    return;
+  }
+
+  const name = selectedModalCard.getAttribute("data-name");
+  const priceText = selectedModalCard.getAttribute("data-price") || "₱0";
+  const price = parseFloat(priceText.replace(/[^0-9.]/g, "")) || 0;
+  const img = selectedModalCard.getAttribute("data-img") || "";
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let existing = cart.find((item) => item.name === name);
+
+  if (existing) {
+    existing.qty += qty;
+  } else {
+    cart.push({ name, price, qty, imgSrc: img });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartCount();
+
+  // If currently on cart page (rare), refresh UI
+  if (document.getElementById("cart-items")) {
+    displayCart();
+  }
+
+  showToast(`✅ ${name} added to cart!`);
+}
+
 
 // ================= notification =================
 function showToast(message) {
@@ -199,7 +248,7 @@ function displayCart() {
         <div class="empty-cart-icon">🛒</div>
         <h3>Your cart is empty!</h3>
         <p>Looks like you haven't added any cookies yet.</p>
-        <button class="hero-btn" onclick="location.href='shop.html'">
+        <button class="hero-btn" onclick="location.href='menu.html'">
           🍪 Start Shopping
         </button>
       </div>
@@ -408,7 +457,6 @@ function openCheckoutModal() {
 
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-
   if (cart.length === 0) {
     showToast("⚠️ Your cart is empty! Add some cookies first 🍪");
     return;
@@ -517,7 +565,6 @@ function agreeAndProceed() {
   sessionStorage.setItem("termsAgreed", "true");
 
   const checkbox = document.getElementById("terms-agree-checkbox");
-
 
   const errorEl = document.getElementById("terms-error");
 
@@ -692,7 +739,7 @@ document.addEventListener("DOMContentLoaded", () => {
   displayCart();
   displayCheckoutItems();
 
-  // ================= ingredient modal listeners (with null check) =================
+  // ================= cookie modal listeners (with null check) =================
   const ingredientModal = document.getElementById("ingredientModal");
   if (ingredientModal) {
     ingredientModal.addEventListener("click", function (e) {
@@ -700,7 +747,33 @@ document.addEventListener("DOMContentLoaded", () => {
         closeIngredientModal();
       }
     });
+
+    //modal quantity + / - buttons
+    const qtyInput = ingredientModal.querySelector(".quantity input[type='number']");
+    const plusBtn = ingredientModal.querySelector(".quantity .plus");
+    const minusBtn = ingredientModal.querySelector(".quantity .minus");
+
+    const getQty = () => Math.max(0, parseInt(qtyInput?.value, 10) || 0);
+    const setQty = (v) => {
+      if (!qtyInput) return;
+      qtyInput.value = String(Math.max(0, v));
+    };
+
+    if (plusBtn) {
+      plusBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        setQty(getQty() + 1);
+      });
+    }
+
+    if (minusBtn) {
+      minusBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        setQty(getQty() - 1);
+      });
+    }
   }
+
 
   // ================= shop page: product card listeners =================
   const productCards = document.querySelectorAll(".product-card");
@@ -783,7 +856,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-
   // ================= ESC key closes all modals =================
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
@@ -793,7 +865,6 @@ document.addEventListener("DOMContentLoaded", () => {
       closeSuccessModal();
     }
   });
-
 
   // ================= Full Name: block numbers in real-time =================
   const nameInput = document.getElementById("checkout-name");
@@ -852,3 +923,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
