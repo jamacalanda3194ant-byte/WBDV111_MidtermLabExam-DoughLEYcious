@@ -1675,14 +1675,37 @@ section {
 }
 
 .box-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  /* 3 across on desktop, collapse nicely on smaller screens */
+  grid-template-columns: repeat(3, minmax(260px, 300px));
   justify-content: center;
   gap: 30px;
   margin-top: 10px;
+
+  /* Make all cards the same height + keep top alignment */
+  align-items: stretch;
+}
+
+
+/* Make cards stack cleanly on smaller screens */
+@media (max-width: 900px) {
+  .box-grid {
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  }
 }
 
 .box-card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Keep button at the bottom consistently */
+.box-btn {
+  margin-top: auto;
+}
+
+.box-card {
+
   background: white;
   border-radius: 24px;
   padding: 35px 25px;
@@ -1819,6 +1842,70 @@ section {
   text-align: center;
 }
 
+/* ================= ORDER BANNER ================= */
+.order-banner {
+  background: linear-gradient(135deg, #674846, #c8a97e);
+  padding: 80px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.order-banner::before {
+  content: "🍪";
+  position: absolute;
+  font-size: 10rem;
+  opacity: 0.07;
+  top: -20px;
+  left: -20px;
+  pointer-events: none;
+}
+
+.order-banner::after {
+  content: "🍪";
+  position: absolute;
+  font-size: 10rem;
+  opacity: 0.07;
+  bottom: -20px;
+  right: -20px;
+  pointer-events: none;
+}
+
+.order-banner-text h1 {
+  font-size: 2.8rem;
+  color: white;
+  font-weight: 700;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+  letter-spacing: 2px;
+}
+
+.order-banner-text p {
+  color: #ffe4b5;
+  font-size: 1rem;
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .order-banner {
+    padding: 70px 20px;
+  }
+
+  .order-banner-text h1 {
+    font-size: 2.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .order-banner {
+    padding: 60px 15px;
+  }
+
+  .order-banner-text h1 {
+    font-size: 1.7rem;
+    letter-spacing: 1px;
+  }
+}
+
 /* ================= CART BANNER ================= */
 .cart-banner {
   background: linear-gradient(135deg, #674846, #c8a97e);
@@ -1827,6 +1914,7 @@ section {
   position: relative;
   overflow: hidden;
 }
+
 
 .cart-banner::before {
   content: "🛒";

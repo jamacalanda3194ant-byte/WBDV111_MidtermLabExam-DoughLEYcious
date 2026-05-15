@@ -6,6 +6,7 @@
     <title>Checkout - Dough LEYcious</title>
 
    <link rel="stylesheet" href="style.css">
+   <link rel="stylesheet" href="receipt.css">
 
    <!-- for icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -229,6 +230,70 @@
             <div class="success-details" id="success-details">
       
             </div>
+
+            <!-- Receipt trigger button (separate receipt modal) -->
+            <div class="success-receipt-actions" style="margin-top: 16px;">
+                <button type="button" class="receipt-action-btn" onclick="openReceiptModal()">
+                    👀 View Receipt
+                </button>
+                <hr style="margin: 16px 0;">
+            </div>
+
+
+            <!-- ================= RECEIPT MODAL ================= -->
+            <div class="modal-overlay" id="receipt-modal" aria-hidden="true">
+                <div class="checkout-modal receipt-modal" role="dialog" aria-modal="true" aria-labelledby="receipt-modal-title">
+                    <button class="modal-close" type="button" onclick="closeReceiptModal()">&times;</button>
+
+                    <div class="modal-header">
+                        <div class="modal-icon">🎟️</div>
+                        <h2 id="receipt-modal-title">Your Receipt</h2>
+                        <p>Print or save your receipt.</p>
+                    </div>
+
+                    <!-- ================= RECEIPT (PRINTABLE YAN BOI) ================= -->
+                    <div class="receipt-container" id="receipt-container" aria-label="Receipt" style="margin-top: 10px;">
+                        <div class="receipt-actions">
+                            <button type="button" class="receipt-action-btn" onclick="printReceipt()">
+                                🖨️ Print Receipt
+                            </button>
+                        </div>
+
+                        <div class="receipt" id="receipt">
+                            <div class="receipt-header">
+                                <div class="receipt-title">🎟️ Dough LEYcious Receipt</div>
+                                <div class="receipt-order-no">Order #: <span id="receipt-order-no">—</span></div>
+                                <div class="receipt-date">Date: <span id="receipt-date">—</span></div>
+                            </div>
+
+                            <div class="receipt-section">
+                                <div class="receipt-section-title">Customer</div>
+                                <div class="receipt-line"><span>Name:</span> <span id="receipt-name">—</span></div>
+                                <div class="receipt-line"><span>Phone:</span> <span id="receipt-phone">—</span></div>
+                                <div class="receipt-line"><span>Address:</span> <span id="receipt-address">—</span></div>
+                            </div>
+
+                            <div class="receipt-section">
+                                <div class="receipt-section-title">Delivery</div>
+                                <div class="receipt-line"><span>Date:</span> <span id="receipt-delivery-date">—</span></div>
+                                <div class="receipt-line"><span>Time:</span> <span id="receipt-delivery-time">—</span></div>
+                            </div>
+
+                            <div class="receipt-section">
+                                <div class="receipt-section-title">Items</div>
+                                <div class="receipt-items" id="receipt-items"></div>
+                            </div>
+
+                            <div class="receipt-totals">
+                                <div class="receipt-total-row"><span>Subtotal</span> <span id="receipt-subtotal">—</span></div>
+                                <div class="receipt-total-row"><span>Delivery Fee</span> <span id="receipt-delivery-fee">—</span></div>
+                                <div class="receipt-total-row receipt-total-final"><span>Total</span> <span id="receipt-total">—</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="success-buttons">
                 <a href="menu.html" class="success-btn shop-more">Continue Shopping</a>
                 <a href="index.html" class="success-btn go-home">Back to Home</a>

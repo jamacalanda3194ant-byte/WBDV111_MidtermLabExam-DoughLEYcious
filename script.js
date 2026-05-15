@@ -839,6 +839,7 @@ function submitOrder(event) {
         "pasay",
       "pateros",
     "antipolo",
+    "angono",
   ];
 
   const isNcr = (() => {
@@ -946,9 +947,103 @@ function submitOrder(event) {
   localStorage.removeItem("cart");
   updateCartCount();
 
+  // ================= RECEIPT POPULATE =================
+  try {
+    const receiptOrderNoEl = document.getElementById("receipt-order-no");
+    const receiptDateEl = document.getElementById("receipt-date");
+    const receiptNameEl = document.getElementById("receipt-name");
+    const receiptPhoneEl = document.getElementById("receipt-phone");
+    const receiptAddressEl = document.getElementById("receipt-address");
+    const receiptDeliveryDateEl = document.getElementById("receipt-delivery-date");
+    const receiptDeliveryTimeEl = document.getElementById("receipt-delivery-time");
+    const receiptItemsEl = document.getElementById("receipt-items");
+    const receiptSubtotalEl = document.getElementById("receipt-subtotal");
+    const receiptDeliveryFeeEl = document.getElementById("receipt-delivery-fee");
+    const receiptTotalEl = document.getElementById("receipt-total");
+
+    if (
+      receiptOrderNoEl && receiptDateEl && receiptNameEl && receiptPhoneEl &&
+      receiptAddressEl && receiptDeliveryDateEl && receiptDeliveryTimeEl &&
+      receiptItemsEl && receiptSubtotalEl && receiptDeliveryFeeEl && receiptTotalEl
+    ) {
+      const orderNumber = (() => {
+        const existing = sessionStorage.getItem("lastOrderNumber");
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, "0");
+        const dd = String(now.getDate()).padStart(2, "0");
+        const hh = String(now.getHours()).padStart(2, "0");
+        const min = String(now.getMinutes()).padStart(2, "0");
+        const rand = Math.floor(Math.random() * 9000) + 1000;
+        const candidate = `DL-${yyyy}${mm}${dd}-${hh}${min}-${rand}`;
+        sessionStorage.setItem("lastOrderNumber", candidate);
+        return existing || candidate;
+      })();
+
+      const nowStr = new Date().toLocaleString();
+
+      // totals
+      receiptOrderNoEl.textContent = orderNumber;
+      receiptDateEl.textContent = nowStr;
+      receiptNameEl.textContent = name;
+      receiptPhoneEl.textContent = phone;
+      receiptAddressEl.textContent = address;
+      receiptDeliveryDateEl.textContent = date;
+      receiptDeliveryTimeEl.textContent = time;
+
+      receiptItemsEl.innerHTML = cart
+        .map((item) => {
+          const lineTotal = item.price * item.qty;
+          return `<div class="receipt-item">
+            <span class="receipt-item-name">${item.name} × ${item.qty}</span>
+            <span class="receipt-item-amount">₱${lineTotal.toFixed(2)}</span>
+          </div>`;
+        })
+        .join("");
+
+      receiptSubtotalEl.textContent = `₱${subtotal.toFixed(2)}`;
+      receiptDeliveryFeeEl.textContent = `₱${deliveryFee.toFixed(2)}`;
+      receiptTotalEl.textContent = `₱${total.toFixed(2)}`;
+    }
+  } catch (e) {
+    // don't break checkout if receipt fails
+  }
+
   showToast("Order placed successfully! 🍪");
 
 }
+
+// ================= receipt printing =================
+function openReceiptModal() {
+  const modal = document.getElementById("receipt-modal");
+  if (!modal) return;
+
+  modal.classList.add("active");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeReceiptModal() {
+  const modal = document.getElementById("receipt-modal");
+  if (!modal) return;
+  modal.classList.remove("active");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "auto";
+}
+
+function printReceipt() {
+  const receiptEl = document.getElementById("receipt");
+  if (!receiptEl) return;
+
+  const originalTitle = document.title;
+  try {
+    document.title = "Dough LEYcious Receipt";
+    window.print();
+  } finally {
+    document.title = originalTitle;
+  }
+}
+
 
 // ================= total =================
 function getTotal() {
@@ -1165,6 +1260,7 @@ function getTotal() {
       closeCheckoutModal();
       closeTermsModal();
       closeSuccessModal();
+      closeReceiptModal();
     }
   });
 
