@@ -1,8 +1,12 @@
 // ================= cart counter =================
 function updateCartCount() {
-  // Reads cart from localStorage and updates every badge: <span id="cart-count">...</span>
+
+  // Read cart items from localStorage.
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // Compute total quantity by summing each item's qty.
   const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+
 
   const counters = document.querySelectorAll("#cart-count");
   counters.forEach((counter) => {
@@ -42,8 +46,8 @@ function openIngredientModal(card) {
   const price = card.getAttribute("data-price");
   const img = card.getAttribute("data-img");
   const description = card.getAttribute("data-description");
-  const ingredientsData = card.getAttribute("data-ingredients");
-  const ingredients = ingredientsData ? ingredientsData.split(",") : [];
+  const ingredients = [];
+
 
   document.getElementById("modalImg").src = img;
   document.getElementById("modalImg").alt = name;
@@ -76,7 +80,7 @@ function closeIngredientModal() {
   document.body.style.overflow = "";
 }
 
-// ================= Modal quantity + add to cart (menu.html) =================
+// ================= Modal quantity and add to cart (menu.html) =================
 function addModalToCart() {
   const modal = document.getElementById("ingredientModal");
   if (!modal) return;
@@ -101,6 +105,16 @@ function addModalToCart() {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   let existing = cart.find((item) => item.name === name);
 
+  const maxQty = getMaxQtyForOrderType();
+  if (maxQty !== Infinity) {
+    const currentQty = getCartTotalQty();
+    if (currentQty + qty > maxQty) {
+      showBoxLimitToast();
+      showToast(`Cannot add more than ${maxQty} cookies for this box.`);
+      return;
+    }
+  }
+
   if (existing) {
     existing.qty += qty;
   } else {
@@ -110,6 +124,7 @@ function addModalToCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCartCount();
 
+
   // If currently on cart page (rare), refresh UI
   if (document.getElementById("cart-items")) {
     displayCart();
@@ -118,12 +133,13 @@ function addModalToCart() {
   // Reset modal quantity input back to 0 after adding
   if (qtyInput) qtyInput.value = 0;
 
-  showToast(`Added to cart: ${name}`);
+  showToast(`Added to cart: ${name}`, { type: "success" });
 }
+
 
 // ================= notification =================
 
-function showToast(message) {
+function showToast(message, options = {}) {
   let toast = document.getElementById("toast");
 
   if (!toast) {
@@ -133,13 +149,26 @@ function showToast(message) {
     document.body.appendChild(toast);
   }
 
-  toast.textContent = message;
+  const isSuccess = options?.type === "success";
+
+  // Reset classes each time
+  toast.classList.remove("toast-success");
+  toast.classList.add("toast");
+
+  if (isSuccess) {
+    toast.classList.add("toast-success");
+    toast.innerHTML = `<span class="toast-success-text">✅ ${message}</span>`;
+  } else {
+    toast.textContent = message;
+  }
+
   toast.classList.add("show");
 
   setTimeout(() => {
     toast.classList.remove("show");
   }, 3000);
 }
+
 
 // ================= confirmation toast =================
 function showConfirmToast(message, onConfirm) {
@@ -192,6 +221,18 @@ function quickAddToCart(name, price, imgSrc) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   let existing = cart.find((item) => item.name === name);
 
+  // Enforce box limits for quick add buttons too
+  const maxQty = getMaxQtyForOrderType();
+  if (maxQty !== Infinity) {
+    const currentQty = getCartTotalQty();
+    const extraQty = 1; // quick add always +1
+    if (currentQty + extraQty > maxQty) {
+      showBoxLimitToast();
+      showToast(`Cannot add more than ${maxQty} cookies for this box.`);
+      return;
+    }
+  }
+
   if (existing) {
     existing.qty += 1;
   } else {
@@ -200,11 +241,16 @@ function quickAddToCart(name, price, imgSrc) {
 
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCartCount();
-  displayCart();
-  showToast(`Added to cart: ${name}`);
+
+  // If on cart page, refresh UI
+  if (document.getElementById("cart-items")) {
+    displayCart();
+  }
+
+  // Keep your icons in toast ✅
+  showToast(`Added to cart: ${name}`, { type: "success" });
 
   // -------------------- smooth scroll to cart section so user sees the update --------------------
-
   const cartSection = document.querySelector(".cart-section");
   if (cartSection) {
     cartSection.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -229,6 +275,45 @@ function selectOrder(type) {
   }, 1000);
 }
 
+// ================= ORDER LIMITS =================
+function getMaxQtyForOrderType() {
+  const orderType = localStorage.getItem("orderType") || "";
+
+  if (orderType === "6pcs") return 6;
+  if (orderType === "8pcs") return 8;
+  if (orderType === "12pcs") return 12;
+
+  // pag per piece unlimited
+  return Infinity;
+}
+
+function getCartTotalQty() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  return cart.reduce((sum, item) => sum + (item.qty || 0), 0);
+}
+
+function canAddQty(extraQty) {
+  const maxQty = getMaxQtyForOrderType();
+  if (maxQty === Infinity) return true;
+
+  const currentQty = getCartTotalQty();
+  return currentQty + extraQty <= maxQty;
+}
+
+function showBoxLimitToast() {
+  const orderType = localStorage.getItem("orderType") || "";
+  const limits = {
+    "6pcs": 6,
+    "8pcs": 8,
+    "12pcs": 12,
+  };
+
+  const maxQty = limits[orderType];
+  if (!maxQty) return;
+
+  showToast(`You can only order up to ${maxQty} cookies for this box.`);
+}
+
 // ================= navigation =================
 function goToShop() {
   window.location.href = "menu.html";
@@ -250,8 +335,7 @@ function displayCart() {
   const subtotalDisplay = document.getElementById("subtotal-price");
   const totalDisplay = document.getElementById("total-price");
 
-  // Keep cart delivery fee simple for now.
-  // The form page has more advanced delivery fee logic based on address.
+  // The form page has more advanced delivery fee logic based on address
   const deliveryFee = 50;
 
 
@@ -321,7 +405,14 @@ function displayCart() {
 // ================= INCREASE QTY =================
 function increaseQty(index) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart[index].qty += 1;
+
+  const extraQty = 1;
+  if (!canAddQty(extraQty)) {
+    showBoxLimitToast();
+    return;
+  }
+
+  cart[index].qty += extraQty;
   localStorage.setItem("cart", JSON.stringify(cart));
   displayCart();
   updateCartCount();
@@ -865,6 +956,24 @@ function getTotal() {
   return cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 }
 
+// ================= Back to top button =================
+(function initBackToTop() {
+  const btn = document.getElementById("backToTop");
+  if (!btn) return;
+
+  const toggle = () => {
+    if (window.scrollY > 300) btn.classList.add("show");
+    else btn.classList.remove("show");
+  };
+
+  window.addEventListener("scroll", toggle, { passive: true });
+  toggle();
+
+  btn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+})();
+
   // ================= hamburger menu (slide down) =================
 
   // Works across all pages that have navbar and doesn't throw errors on pages without it
@@ -904,8 +1013,6 @@ function getTotal() {
     });
   });
   // ---- update cart count on every page ----
-  // ================= Page-specific initialization =================
-  // Only run functions that match elements that exist on the current page.
   updateCartCount();
 
   // cart page (cart.html)
@@ -999,6 +1106,18 @@ function getTotal() {
           const img = card.querySelector("img");
           const imgSrc = img ? img.src : "";
 
+          const maxQty = getMaxQtyForOrderType();
+
+          // Enforce limit BEFORE committing the add (so user doesn't lose their selected quantity if they exceed the box limit)
+          if (maxQty !== Infinity) {
+            const currentQty = getCartTotalQty();
+            if (currentQty + qty > maxQty) {
+              showBoxLimitToast();
+              showToast(`Cannot add more than ${maxQty} cookies for this box.`);
+              return;
+            }
+          }
+
           let cart = JSON.parse(localStorage.getItem("cart")) || [];
           let existing = cart.find((item) => item.name === name);
 
@@ -1009,11 +1128,13 @@ function getTotal() {
           }
 
           localStorage.setItem("cart", JSON.stringify(cart));
+
           updateCartCount();
 
           input.value = 0;
 
-          showToast(`Added to cart: ${name}`);
+          showToast(`Added to cart: ${name}`, { type: "success" });
+
 
         });
       }

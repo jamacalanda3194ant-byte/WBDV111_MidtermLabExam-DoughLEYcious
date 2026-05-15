@@ -44,7 +44,7 @@
 <main class="main-content">
 
     <header class="header">
-    <img src="images/header.jpg" alt="Cookie menu banner for Dough LEYcious" loading="lazy">
+   <img src="images/header3.png" alt="Assortment of freshly baked cookies including chocolate chip and oatmeal varieties, displayed on a rustic wooden table in a warm, inviting bakery kitchen, radiating comfort and indulgence">
     <div class="header-overlay">
       <h1>Our Cookie Menu 🍪</h1>
       <p>Hover to spin, click to discover what's inside!</p>
@@ -78,8 +78,8 @@
         data-tagline=""
         data-price="₱55.00"
         data-img="images/choco chip.jpg"
-            data-description="The timeless favorite everyone loves"
-                    data-allergens="Contains: N/A">
+        data-description="The timeless favorite everyone loves">
+        <span class="badge best-seller">Best Seller</span>
         <div class="cookie-img-wrapper">
           <img src="images/choco chip.jpg" alt="Classic Chocolate Chip Cookie">
         </div>
@@ -118,10 +118,11 @@
         data-img="images/biscoff.png"
             data-description="Caramelized cookie with a hint of cinnamon"
                     data-allergens="Contains: N/A">
+        <span class="badge new">New</span>
         <div class="cookie-img-wrapper">
           <img src="images/biscoff.png" alt="Biscoff Cookie">
         </div>
-        <h3>Biscoff</h3>
+        <h3>Biscoff Choco Chip</h3>
         <p class="cookie-tagline">Caramelized cookie with a hint of cinnamon</p>
         <span class="cookie-price">₱75.00</span>
         <button class="view-ingredients-btn" onclick="event.stopPropagation(); openIngredientModal(this.parentElement)">
@@ -137,10 +138,11 @@
         data-img="images/oreo.jpg"
             data-description="Creamy filling between two chocolate wafers"
                     data-allergens="Contains: N/A">
+                    <span class="badge best-seller">Popular</span>
         <div class="cookie-img-wrapper">
           <img src="images/oreo.jpg" alt="Oreo Cookie">
         </div>
-        <h3>Oreo</h3>
+        <h3>Oreo Crumbl</h3>
         <p class="cookie-tagline">Creamy filling between two chocolate wafers</p>
         <span class="cookie-price">₱65.00</span>
         <button class="view-ingredients-btn" onclick="event.stopPropagation(); openIngredientModal(this.parentElement)">
@@ -180,8 +182,9 @@
         data-tagline=""
         data-price="₱219.00"
         data-img="images/chocolate cake cookie.jpg"
-            data-description="Simple chocolate cake good for special dates!"
+                    data-description="Simple chocolate cake good for special dates!"
                     data-allergens="Contains: N/A">
+        <span class="badge customize">Customize</span>
         <div class="cookie-img-wrapper">
           <img src="images/chocolate cake cookie.jpg" alt="Chocolate Cake Cookie">
         </div>
@@ -309,7 +312,12 @@
 </div>
 
 <!-- ================= Footer ================= -->
+<button id="backToTop" class="back-to-top" type="button" aria-label="Back to top" title="Back to top">
+  <i class="fas fa-cookie-bite"></i>
+</button>
+
 <footer class="footer footer-menu-page">
+
   <div class="footer-content">
     <div class="footer-section">
       <h3>Find Us</h3>
@@ -326,7 +334,7 @@
     <div class="footer-section">
       <h3>Quick Links</h3>
       <a href="index.html">Home</a>
-      <a href="cookies.html">Menu</a>
+      <a href="menu.html">Menu</a>
       <a href="aboutus.html">About Us</a>
       <a href="terms.html">Terms and Conditions</a>
     </div>
