@@ -1,12 +1,15 @@
 // ================= cart counter =================
 function updateCartCount() {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  let total = cart.reduce((sum, item) => sum + item.qty, 0);
+  // Reads cart from localStorage and updates every badge: <span id="cart-count">...</span>
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+
   const counters = document.querySelectorAll("#cart-count");
   counters.forEach((counter) => {
-    counter.textContent = total;
+    counter.textContent = totalQty;
   });
 }
+
 
 // ================= carousel (header)=================
 let slides = document.querySelectorAll(".slide");
@@ -115,11 +118,11 @@ function addModalToCart() {
   // Reset modal quantity input back to 0 after adding
   if (qtyInput) qtyInput.value = 0;
 
-  showToast(`✅ ${name} added to cart!`);
+  showToast(`Added to cart: ${name}`);
 }
 
-
 // ================= notification =================
+
 function showToast(message) {
   let toast = document.getElementById("toast");
 
@@ -149,7 +152,8 @@ function showConfirmToast(message, onConfirm) {
 
   overlay.innerHTML = `
     <div class="confirm-toast-box">
-      <p class="confirm-toast-message">🗑️ ${message}</p>
+      <p class="confirm-toast-message">${message}</p>
+
       <div class="confirm-toast-buttons">
         <button class="confirm-btn confirm-yes" id="confirm-yes">Yes, clear it</button>
         <button class="confirm-btn confirm-no" id="confirm-no">Cancel</button>
@@ -197,9 +201,10 @@ function quickAddToCart(name, price, imgSrc) {
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCartCount();
   displayCart();
-  showToast(`✅ ${name} added to cart!`);
+  showToast(`Added to cart: ${name}`);
 
   // -------------------- smooth scroll to cart section so user sees the update --------------------
+
   const cartSection = document.querySelector(".cart-section");
   if (cartSection) {
     cartSection.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -234,18 +239,21 @@ function goToOrderPage() {
 }
 
 // ================= cart page =================
-let deliveryFee = 50;
 const deliveryRates = {
- manila: { base: 50, minOrder: 300 },
- near: { base: 80, minOrder: 500 },
- far: { base: 120, minOrder: 800 }
+  manila: { base: 50, minOrder: 300 },
+  near: { base: 80, minOrder: 500 },
+  far: { base: 120, minOrder: 800 }
 };
 
 function displayCart() {
   const cartContainer = document.getElementById("cart-items");
   const subtotalDisplay = document.getElementById("subtotal-price");
   const totalDisplay = document.getElementById("total-price");
+
+  // Keep cart delivery fee simple for now.
+  // The form page has more advanced delivery fee logic based on address.
   const deliveryFee = 50;
+
 
   // -------------------- gumagana lang sa cart page --------------------
   if (!cartContainer) return;
@@ -255,9 +263,11 @@ function displayCart() {
   if (cart.length === 0) {
     cartContainer.innerHTML = `
       <div class="empty-cart">
-        <div class="empty-cart-icon">🛒</div>
+<div class="empty-cart-icon">🛒</div>
+
         <h3>Your cart is empty!</h3>
         <p>Looks like you haven't added any cookies yet.</p>
+
         <button class="hero-btn" onclick="location.href='menu.html'">
           🍪 Start Shopping
         </button>
@@ -278,6 +288,7 @@ function displayCart() {
 
     cartContainer.innerHTML += `
       <div class="cart-item">
+
         <img src="${item.imgSrc || "images/choco chip.jpg"}" 
              alt="${item.name}"
              onerror="this.src='images/choco chip.jpg'">
@@ -326,7 +337,7 @@ function decreaseQty(index) {
     // -------------------- mawawala yung item pag nag reach ng 0 --------------------
   } else {
     cart.splice(index, 1);
-    showToast("🗑️ Item removed from cart!");
+    showToast("Item removed from cart!");
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
@@ -844,7 +855,8 @@ function submitOrder(event) {
   localStorage.removeItem("cart");
   updateCartCount();
 
-  showToast("✅ Order placed successfully! 🍪");
+  showToast("Order placed successfully! 🍪");
+
 }
 
 // ================= total =================
@@ -853,10 +865,9 @@ function getTotal() {
   return cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 }
 
-// ================= EVERYTHING RUNS ON DOM READY =================
-document.addEventListener("DOMContentLoaded", () => {
   // ================= hamburger menu (slide down) =================
-  // Works across all pages that have .navbar, .nav-toggle-btn and .nav-links
+
+  // Works across all pages that have navbar and doesn't throw errors on pages without it
   document.querySelectorAll(".navbar").forEach((navbar) => {
     const btn = navbar.querySelector(".nav-toggle-btn");
     const links = navbar.querySelector(".nav-links");
@@ -893,9 +904,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
   // ---- update cart count on every page ----
+  // ================= Page-specific initialization =================
+  // Only run functions that match elements that exist on the current page.
   updateCartCount();
-  displayCart();
-  displayCheckoutItems();
+
+  // cart page (cart.html)
+  if (document.getElementById("cart-items")) {
+    displayCart();
+  }
+
+  // checkout/form page (form.html)
+  if (document.getElementById("checkout-items")) {
+    displayCheckoutItems();
+  }
+
 
   // ================= cookie modal listeners (with null check) =================
   const ingredientModal = document.getElementById("ingredientModal");
@@ -991,7 +1013,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
           input.value = 0;
 
-          showToast(`✅ ${name} added to cart!`);
+          showToast(`Added to cart: ${name}`);
+
         });
       }
     });
@@ -1079,4 +1102,3 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-});

@@ -64,11 +64,11 @@
     </div>
   </section>
 
-<!-- ================= Cookie Menu List ================= -->
+<!-- ================= Menu Sections ================= -->
   <div class="menu-container">
 
-    <!-- ===== CLASSIC COOKIES ===== -->
-    <h3 class="category-title">🍫 Classic Cookies <span class="menu-count">5 flavors</span></h3>
+    <!-- ===== COOKIES ===== -->
+    <h3 class="category-title">🍪 Cookies <span class="menu-count">5 flavors</span></h3>
 
     <div class="cookie-grid">
 
@@ -169,12 +169,12 @@
 
     </div>
 
-    <!-- ===== SPECIALTY ===== -->
-    <h3 class="category-title">🌟 Specialty <span class="menu-count">4 NEW Cravings</span></h3>
+    <!-- ===== CAKES ===== -->
+    <h3 class="category-title">🍰 Cakes <span class="menu-count">2 flavors</span></h3>
 
     <div class="cookie-grid">
 
-      <!-- Specialty 1 -->
+      <!-- Cake 1 -->
       <div class="cookie-grid-card" onclick="openIngredientModal(this)"
         data-name="Chocolate Cake"
         data-tagline=""
@@ -186,33 +186,14 @@
           <img src="images/chocolate cake cookie.jpg" alt="Chocolate Cake Cookie">
         </div>
         <h3>Chocolate Cake</h3>
-        <p class="cookie-tagline">Simple chocolate cake good for special dates!</p>
+        <p class="cookie-tagline">can customize chocolate cake good for special dates!</p>
         <span class="cookie-price">₱219.00</span>
         <button class="view-ingredients-btn" onclick="event.stopPropagation(); openIngredientModal(this.parentElement)">
           <i class="fas fa-list-ul"></i> View Cookie
         </button>
       </div>
 
-      <!-- Specialty 2 -->
-      <div class="cookie-grid-card" onclick="openIngredientModal(this)"
-        data-name="Dark Chocolate"
-        data-tagline=""
-        data-price="₱119.00"
-        data-img="images/dark chocolate cookie.jpg"
-            data-description="Rich, intense chocolate flavor"
-                    data-allergens="Contains: N/A">
-        <div class="cookie-img-wrapper">
-          <img src="images/dark chocolate cookie.jpg" alt="Dark Chocolate Cookie">
-        </div>
-        <h3>Dark Chocolate</h3>
-        <p class="cookie-tagline">Rich, intense chocolate flavor</p>
-        <span class="cookie-price">₱119.00</span>
-        <button class="view-ingredients-btn" onclick="event.stopPropagation(); openIngredientModal(this.parentElement)">
-          <i class="fas fa-list-ul"></i> View Cookie
-        </button>
-      </div>
-
-      <!-- Specialty 3 -->
+      <!-- Cake 2 -->
       <div class="cookie-grid-card" onclick="openIngredientModal(this)"
         data-name="Chocolate Chip Cake"
         data-tagline=""
@@ -231,7 +212,14 @@
         </button>
       </div>
 
-      <!-- Specialty 4 -->
+    </div>
+
+    <!-- ===== BREAD SECTION ===== -->
+    <h3 class="category-title">🥖 Bread <span class="menu-count">1 flavor</span></h3>
+
+    <div class="cookie-grid">
+
+      <!-- Bread 1 -->
       <div class="cookie-grid-card" onclick="openIngredientModal(this)"
         data-name="Cheese Bread"
         data-tagline=""
@@ -242,9 +230,35 @@
         <div class="cookie-img-wrapper">
           <img src="images/cheese bread.jpg" alt="Cheese Bread">
         </div>
-        <h3>Cheese Bread</h3>
+        <h3>Flat Bread</h3>
         <p class="cookie-tagline">Flaky, buttery, and filled with creamy cheese</p>
         <span class="cookie-price">₱109.00</span>
+        <button class="view-ingredients-btn" onclick="event.stopPropagation(); openIngredientModal(this.parentElement)">
+          <i class="fas fa-list-ul"></i> View Cookie
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ===== CHOCOLATE CRAVINGS ===== -->
+    <h3 class="category-title">🍫 Chocolate Cravings <span class="menu-count">1 flavor</span></h3>
+
+    <div class="cookie-grid">
+
+      <!-- Craving 1 -->
+      <div class="cookie-grid-card" onclick="openIngredientModal(this)"
+        data-name="Dark Chocolate"
+        data-tagline=""
+        data-price="₱119.00"
+        data-img="images/dark chocolate cookie.jpg"
+            data-description="Rich, intense chocolate flavor"
+                    data-allergens="Contains: N/A">
+        <div class="cookie-img-wrapper">
+          <img src="images/dark chocolate cookie.jpg" alt="Dark Chocolate Cookie">
+        </div>
+        <h3>Crinkles</h3>
+        <p class="cookie-tagline">Rich, intense chocolate flavor</p>
+        <span class="cookie-price">₱119.00</span>
         <button class="view-ingredients-btn" onclick="event.stopPropagation(); openIngredientModal(this.parentElement)">
           <i class="fas fa-list-ul"></i> View Cookie
         </button>
@@ -256,7 +270,7 @@
 
 </main>
 
-<!-- ================= Ingredient Modal ================= -->
+<!-- ================= MODAL ================= -->
 <div class="ingredient-modal-overlay" id="ingredientModal">
   <div class="ingredient-modal">
     <button class="modal-close-btn" onclick="closeIngredientModal()">
@@ -336,4 +350,3 @@
 
 </body>
 </html>
-

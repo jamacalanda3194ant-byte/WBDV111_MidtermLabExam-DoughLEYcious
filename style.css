@@ -15,12 +15,92 @@ html, body {
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: #fff8dc;
+
+  /* Dessert themed warm base */
+  background:
+    radial-gradient(900px 650px at 15% 5%, rgba(255, 228, 181, 0.55), transparent 60%),
+    radial-gradient(700px 520px at 85% 15%, rgba(200, 169, 126, 0.45), transparent 58%),
+    radial-gradient(800px 650px at 45% 95%, rgba(103, 72, 70, 0.14), transparent 62%),
+    linear-gradient(180deg, #fff8dc 0%, #fff2cf 45%, #fff8dc 100%);
+
+  color: #333;
   display: flex;
   flex-direction: column;
-  color: #333;
   padding-top: 110px;
+
+  position: relative;
+  min-height: 100vh;
 }
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  /* Sprinkle dots pattern */
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(200, 169, 126, 0.25) 0 2px, transparent 3px),
+    radial-gradient(circle at 70% 40%, rgba(103, 72, 70, 0.18) 0 2px, transparent 3px),
+    radial-gradient(circle at 40% 80%, rgba(200, 169, 126, 0.18) 0 2px, transparent 3px),
+    radial-gradient(circle at 90% 70%, rgba(103, 72, 70, 0.12) 0 1.5px, transparent 3px),
+    radial-gradient(circle at 20% 60%, rgba(200, 169, 126, 0.12) 0 1.5px, transparent 3px);
+
+  background-size: 260px 260px, 320px 320px, 280px 280px, 420px 420px, 360px 360px;
+  opacity: 0.75;
+
+  /* Slightly stronger and more lively */
+  animation: sprinkleDrift 14s linear infinite;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+
+  /* Soft blobs tapos may subtle paper texture */
+  background:
+    radial-gradient(900px 600px at 10% 10%, rgba(200, 169, 126, 0.22), transparent 60%),
+    radial-gradient(800px 500px at 90% 20%, rgba(103, 72, 70, 0.15), transparent 58%),
+    radial-gradient(900px 650px at 40% 90%, rgba(255, 228, 181, 0.22), transparent 60%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.04) 0 2px,
+      rgba(0,0,0,0.015) 2px 4px
+    );
+
+  filter: saturate(1.08);
+}
+
+
+@keyframes sprinkleDrift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(18px, -12px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+  }
+
+  /* Keep background visible kahit walang motion */
+  body::before {
+    opacity: 0.55;
+  }
+}
+
+
 
 a {
   text-decoration: none;
@@ -88,6 +168,7 @@ section {
   padding: 15px 30px;
 }
 
+
 /* ===== LOGO  ===== */
 .nav-logo {
   display: flex;
@@ -115,7 +196,7 @@ section {
   align-items: center;
 }
 
-/* ===== HAMBURGER MENU (hidden on desktop) ===== */
+/* ===== HAMBURGER MENU */
 .nav-toggle-btn {
   display: none;
   background: transparent;
@@ -213,6 +294,12 @@ section {
 
 /* ================= HERO SECTION (CAROUSEL) ================= */
 
+/*
+  NOTE:
+  The carousel is controlled by JS (script.js) by toggling the `.active` class on `.slide`.
+  CSS only handles the layout + fade transition.
+*/
+
 .header {
   position: relative;
   width: 100%;
@@ -222,6 +309,7 @@ section {
 
 /* carousel container */
 .carousel {
+
   position: relative;
   width: 100%;
   height: 100%;
@@ -552,9 +640,11 @@ section {
      border-radius: 50%;
 }
         /* SPIN EFFECT */
+    /* spin cookie image on hover */
     .cookie-grid-card:hover .cookie-img-wrapper img {
  transform: rotate(360deg);
 }
+
 
     /* ---- Cookie Card Info ---- */
     .cookie-grid-card h3 {
@@ -3695,9 +3785,24 @@ section {
 /* ================= FOR ALL RESPONSIVE ================= */
  
 @media (max-width: 768px) {
+  .navbar-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .nav-logo {
+    order: 1;
+    justify-content: flex-start;
+    flex-direction: row;
+  }
+
   .nav-toggle-btn {
     display: inline-flex;
+    order: 2;
   }
+
 
   .nav-links {
     display: flex;
@@ -3728,8 +3833,9 @@ section {
   }
 
   .navbar-inner {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
   }
 
@@ -3738,6 +3844,7 @@ section {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    order: 1;
   }
 
   .nav-logo-img {
@@ -3749,8 +3856,8 @@ section {
     gap: 12px;
     width: 100%;
     text-align: center;
+    order: 3;
   }
-
   .nav-links li {
     width: 100%;
   }
