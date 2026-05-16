@@ -294,11 +294,6 @@ section {
 
 /* ================= HERO SECTION (CAROUSEL) ================= */
 
-/*
-  NOTE:
-  The carousel is controlled by JS (script.js) by toggling the `.active` class on `.slide`.
-  CSS only handles the layout + fade transition.
-*/
 
 .header {
   position: relative;
@@ -1660,6 +1655,8 @@ section {
   transform: translateY(-8px);
   box-shadow: 0 15px 35px rgba(103, 72, 70, 0.15);
 }
+
+
 
 /* ================= BOX SECTION ================= */
 .box-section {
@@ -4149,4 +4146,41 @@ section {
   .quantity {
     justify-content: center;
   }
+}
+
+.box-grid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  max-width: 1250px;
+  margin: 40px auto 0;
+  justify-items: center;
+  align-items: stretch;
+}
+
+/* ================= BOX CARD ================= */
+
+.box-card{
+  width: 100%;
+  max-width: 260px;
+}
+
+/* ================= TABLET RESPONSIVE ================= */
+
+@media (max-width: 992px){
+
+  .box-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+
+@media (max-width: 600px){
+
+  .box-grid{
+    grid-template-columns: 1fr;
+  }
+
 }
